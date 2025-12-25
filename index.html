@@ -55,19 +55,20 @@ html, body {
 #popup {
   position: fixed; top:50%; left:50%; transform: translate(-50%,-50%);
   display:none; 
-  background: rgba(0,0,0,0.7); /* transparent black */
+  background: linear-gradient(135deg,#1e3c72,#6b21a8,#000,#1e3c72);
+  background-size: 400% 400%; animation: popupGradient 10s ease infinite;
   color:white; text-align:center; padding:40px 50px; z-index:20000;
   font-size:18px; border-radius:15px; box-shadow: 0 0 20px rgba(0,0,0,0.5); max-width:90%;
-  animation: popupGradient 10s ease infinite;
 }
 #popupClose { position:absolute; top:10px; right:14px; font-size:26px; cursor:pointer; color:white; }
 
 /* ===== GRADIENT ANIMATION ===== */
 @keyframes popupGradient {
-  0% { background: rgba(0,0,255,0.7); }
-  33% { background: rgba(155,0,255,0.7); }
-  66% { background: rgba(0,0,0,0.7); }
-  100% { background: rgba(0,0,255,0.7); }
+  0% { background-position:0% 50%; }
+  25% { background-position:50% 50%; }
+  50% { background-position:100% 50%; }
+  75% { background-position:50% 50%; }
+  100% { background-position:0% 50%; }
 }
 @keyframes gradientMoveCode {
   0% { background-position:0% 0%; }
@@ -143,6 +144,7 @@ const codeGate = document.getElementById("codeGate");
 const codeInput = document.getElementById("codeInput");
 const codeError = document.getElementById("codeError");
 const sections = document.querySelectorAll('.section');
+const home = document.getElementById("home");
 
 function showSection(id){
   sections.forEach(s => s.classList.remove('active'));
@@ -155,7 +157,7 @@ document.getElementById("submitCode").onclick = () => {
   if(codeInput.value===SECRET){
     codeGate.style.display="none";
     showSection("home");
-    burstConfetti();
+    burstConfetti(); // Big confetti explosion
   } else {
     codeError.textContent="Incorrect code. Try again.";
     codeInput.value="";
@@ -178,7 +180,7 @@ btn.onclick = () => {
   count++;
   counter.textContent = count+" / 50";
   moveButton();
-  if(count===50) popup.style.display="block";
+  if(count===50) document.getElementById("popup").style.display="block";
 }
 
 /* ===== POPUP ===== */
