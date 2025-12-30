@@ -53,14 +53,18 @@ html, body {
 }
 .backHome { margin-top:30px; background:#7a00ff; }
 
-/* 50 BUTTON GAME */
-#counter { font-size:clamp(1.5rem,5vw,3rem); margin-bottom:20px; text-align:center; }
-#moveBtn {
-  position:absolute; padding:16px 30px; font-size:1.2rem;
-  border-radius:12px; border:none; background:#002fa7; color:white; cursor:pointer;
+/* REVISIT BUTTON (replaces 50-button game) */
+#revisitBtn {
+  padding:16px 30px;
+  font-size:1.2rem;
+  border-radius:12px;
+  border:none;
+  background:#002fa7;
+  color:white;
+  cursor:pointer;
 }
 
-/* POPUP — now fully solid colors, no transparency */
+/* POPUP — solid colors */
 #popup {
   position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
   display:none;
@@ -113,7 +117,7 @@ html, body {
 @media (max-width: 600px) {
   .nav-buttons { grid-template-columns:1fr; gap:15px; }
   .nav-buttons button, .backHome { font-size:1rem; padding:14px 16px; min-width:100px; }
-  #moveBtn { font-size:1rem; padding:12px 20px; }
+  #revisitBtn { font-size:1rem; padding:12px 20px; }
 }
 </style>
 </head>
@@ -155,10 +159,11 @@ html, body {
   <button class="backHome" onclick="showSection('home')">Back to Home</button>
 </div>
 
+<!-- SECTION 4 — now just a revisit button -->
 <div id="section4" class="section">
-  <h1 id="counter">0 / 50</h1>
-  <p>Press the button 50 times for the surprise</p>
-  <button id="moveBtn">Press Me</button>
+  <h1>🎁 Final Surprise</h1>
+  <p>You can reopen the final message anytime:</p>
+  <button id="revisitBtn">Open Final Message</button>
   <button class="backHome" onclick="showSection('home')">Back to Home</button>
 </div>
 
@@ -197,35 +202,10 @@ document.getElementById("submitCode").onclick = () => {
   }
 };
 
-// ===== 50 BUTTON GAME =====
-const btn = document.getElementById("moveBtn");
-const counter = document.getElementById("counter");
-let count = 0;
-let firstPress = true;
-
-btn.onclick = () => {
-  if(firstPress){
-    btn.style.left = `calc(50% - ${btn.offsetWidth/2}px)`;
-    btn.style.top = `calc(50% - ${btn.offsetHeight/2}px)`;
-    firstPress = false;
-    return;
-  }
-  count++;
-  counter.textContent = count + " / 50";
-  if(count < 50){
-    const maxX = window.innerWidth - btn.offsetWidth - 10;
-    const maxY = window.innerHeight - btn.offsetHeight - 10;
-    btn.style.left = Math.random()*maxX + "px";
-    btn.style.top = Math.random()*maxY + "px";
-  } else {
-    btn.style.display = "none";
-    popup.style.display = "block";
-  }
-};
-
 // ===== POPUP =====
 const popup = document.getElementById("popup");
 document.getElementById("popupClose").onclick = () => popup.style.display = "none";
+document.getElementById("revisitBtn").onclick = () => popup.style.display = "block";
 
 // ===== SLIME CONFETTI (background rain) =====
 const TOTAL_SLIMES = 43;
@@ -279,4 +259,3 @@ function burstConfetti() {
 </script>
 </body>
 </html>
-
